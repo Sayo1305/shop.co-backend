@@ -8,13 +8,17 @@ const { connectDatabase } = require("./utilities/dbconnect");
 var logger = require('morgan');
 
 const app = express();
-app.use(logger("dev"));
+var corsOptions = {
+   origin: [process.env.FRONT_END_URL , "http://localhost:3000/"],
+   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+ }
 
+app.use(logger("dev"));
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(logger("dev"));
-app.use(cors());
+app.use(cors(corsOptions));
 
 const indexRouter = require('./routes/index');
 
